@@ -23,7 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var chords = (function(){
+var ChordJS = (function(){
     
     //Constants
     var NO_FINGER = '-';
@@ -460,6 +460,12 @@ var chords = (function(){
     };  
     
     function GenerateChordHtml(name, positions, fingering, size) {
+        if (positions.length != 6 || fingering.length != 6) {
+            console.error('ChordJS cannot generate a chord diagram from invalid chord input! (Too many positions or fingers.');
+            console.log('ChordJS will render an empty chord instead!');
+            positions = 'xxxxxx';
+            fingering = '------';
+        }
         var chordObj = ChordBoxImage(name, positions, fingering, size);
         var canvas = document.createElement('canvas');
         canvas.setAttribute('class', 'rendered-chord');
@@ -487,7 +493,8 @@ var chords = (function(){
             var positions = elt.getAttribute('positions');
             var fingers = elt.getAttribute('fingers');
             var size = elt.getAttribute('size');
-            GenerateChordHtml(name, positions, fingers, size);
+            var canvas = GenerateChordHtml(name, positions, fingers, size);
+            elt.parentNode.insertBefore(canvas, elt);
         };
     };
       
@@ -498,3 +505,5 @@ var chords = (function(){
     };
 
 })();
+
+var chords = ChordJS;

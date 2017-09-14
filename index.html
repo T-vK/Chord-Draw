@@ -14,17 +14,8 @@
         <input type="text" id="chord-input">
         <div id="chord-output"></div>   
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-        <script>
-            window.jQuery || document.write('<script type="text/javascript" src="fallback/jquery/jquery-3.2.1.min.js"><\/script>');
-        </script> 
         <script src="ChordJS/chords.js"></script>
-        <script>
-            window.chords || document.write('<script type="text/javascript" src="fallback/ChordJS/chords.js"><\/script>');
-        </script>
         <script src="chord-collection/chords.js"></script>
-        <script>
-            window.CHORD_COLLECTION || document.write('<script type="text/javascript" src="fallback/chord-collection/chords.js"><\/script>');
-        </script>
         <script>
             $(function(){
                 $("#chord-input").on('change keydown paste input', function(){

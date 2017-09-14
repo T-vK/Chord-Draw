@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Chord-Draw">
+        <meta name="author" content="T-vK">
+        
+        <title>Chord-Draw</title>
+    </head>
+    
+    <body>
+        <input type="text" id="chord-input">
+        <div id="chord-output"></div>   
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="ChordJS/chords.js"></script>
+        <script src="chord-collection/chords.js"></script>
+        <script>
+            $(function(){
+                $("#chord-input").on('change keydown paste input', function(){
+                var chordName = $("#chord-input").val()
+                
+                chordsHtml = getChordHtml(chordName).join('')
+                $('#chord-output').html(chordsHtml)
+                chords.replace()
+                })
+            })
+            
+            function transposeChord(chord, amount) {
+                var scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+                var normalizeMap = {"Cb":"B", "Db":"C#", "Eb":"D#", "Fb":"E", "Gb":"F#", "Ab":"G#", "Bb":"A#",  "E#":"F", "B#":"C"}
+                return chord.replace(/[CDEFGAB](b|#)?/g, function(match) {
+                var i = (scale.indexOf((normalizeMap[match] ? normalizeMap[match] : match)) + amount) % scale.length;
+                return scale[ i < 0 ? i + scale.length : i ];
+                })
+            }
+            
+            function getChordHtml(chordName,size) {
+                var size = size || 5
+                var chordsHtmlArr = []   //example: <chord name="D" positions="xx0232" fingers="---132" size="3" ></chord>
+                var chordVariations = []
+                if (CHORD_COLLECTION[chordName]) {
+                chordVariations = CHORD_COLLECTION[chordName]
+                } else {
+                chordVariations.push({positions:['x','x','x','x','x','x'],fingerings:[[0,0,0,0,0,0]]})
+                chordName = chordName + ' (N/A)'
+                } 
+                chordVariations.forEach(function(variation,i){
+                var positionsStr = variation.positions.join('')
+                variation.fingerings.forEach(function(fingering,i){
+                    var fingeringStr = fingering.join('').replace(/0/g,'-')
+                    var chordHtml = '<chord name="' + chordName  + '" positions="' + positionsStr + '" fingers="' + fingeringStr + '" size="' + size + '" ></chord>'
+                    chordsHtmlArr.push(chordHtml)
+                })
+                })
+                return chordsHtmlArr
+            }
+        </script>
+    </body>
+</html>

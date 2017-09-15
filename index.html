@@ -12,7 +12,11 @@
     
     <body>
         <input type="text" id="chord-input">
-        <div id="chord-output"></div>   
+        <div id="chord-output"></div>
+        <select id="layout">
+            <option value="1" selected="selected">Layout 1</option>
+            <option value="2">Layout 2</option>
+        </select>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script src="ChordJS/chords.js"></script>
         <script src="chord-collection/chords.js"></script>
@@ -20,8 +24,8 @@
             $(function(){
                 $("#chord-input").on('change keydown paste input', function(){
                     var chordName = $("#chord-input").val()
-                
-                    chordsHtml = getChordHtml(chordName).join('')
+                    var layout = $('#layout').val()
+                    chordsHtml = getChordHtml(chordName,layout).join('')
                     $('#chord-output').html(chordsHtml)
                     ChordJS.replace()
                 })
@@ -36,7 +40,7 @@
                 })
             }
             
-            function getChordHtml(chordName,size) {
+            function getChordHtml(chordName,layout,size) {
                 var size = size || 5
                 var chordsHtmlArr = []   //example: <chord name="D" positions="xx0232" fingers="---132" size="3" ></chord>
                 var chordVariations = []
@@ -45,13 +49,13 @@
                 } else {
                     chordVariations.push({positions:['x','x','x','x','x','x'],fingerings:[[0,0,0,0,0,0]]})
                     chordName = chordName + ' (N/A)'
-                } 
+                }
                 chordVariations.forEach(function(variation,i){
                     var positionsStr = variation.positions.join('')
                     variation.fingerings.forEach(function(fingering,i){
                         var fingeringStr = fingering.join('').replace(/0/g,'-')
                         if (positionsStr.length===6 && fingeringStr.length===6 && positionsStr !== 'xxxxxx') {
-                            var chordHtml = '<chord name="' + chordName  + '" positions="' + positionsStr + '" fingers="' + fingeringStr + '" size="' + size + '" ></chord>'
+                            var chordHtml = '<chord name="' + chordName  + '" positions="' + positionsStr + '" fingers="' + fingeringStr + '" size="' + size + '" layout="' + layout + '" strings="EADGBe"></chord>'
                             chordsHtmlArr.push(chordHtml)
                         }
                     })

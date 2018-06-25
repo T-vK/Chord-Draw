@@ -5,3 +5,6 @@ This project utilized a big library of guitar chords and an improved version of 
 
 ## Screenshot:
 ![preview](preview.jpg)
+
+## License
+The source is licensed under the GPL.

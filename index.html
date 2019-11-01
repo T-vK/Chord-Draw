@@ -21,14 +21,17 @@
         <script src="ChordJS/chords.js"></script>
         <script src="chord-collection/chords.js"></script>
         <script>
-            $(function(){
-                $("#chord-input").on('change keydown paste input', function(){
+             function draw(){
                     var chordName = $("#chord-input").val()
                     var layout = $('#layout').val()
                     chordsHtml = getChordHtml(chordName,layout).join('')
                     $('#chord-output').html(chordsHtml)
                     ChordJS.replace()
-                })
+            }
+
+            $(function(){
+                $("#chord-input").on('change keydown paste input', draw)
+                draw()
             })
             
             function transposeChord(chord, amount) {

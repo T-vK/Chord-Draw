@@ -1,6 +1,6 @@
 [submodule "ChordJS"]
 	path = ChordJS
-	url = https://github.com/T-vK/ChordJS.git
+	url = https://github.com/acspike/ChordJS.git
 [submodule "chord-collection"]
 	path = chord-collection
 	url = https://github.com/T-vK/chord-collection.git
